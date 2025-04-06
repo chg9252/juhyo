@@ -1,4 +1,5 @@
 패키지 구조
+```
 com.juhyo/
 ├── domain/                 # 도메인 모델 (핵심 비즈니스 로직)
 │   ├── user/              # 사용자 관련 도메인
@@ -40,3 +41,4 @@ com.juhyo/
         │   │   └── UserJpaEntity.java
         │   └── sharing/
         └── notification/ # 알림 시스템
+```
