@@ -58,6 +58,10 @@ public class User {
         this.role = role != null ? role : UserRole.USER;
     }
 
+    public boolean isActive() {
+        return this.status == UserStatus.ACTIVE;
+    }
+
     // 개인정보 업데이트
     public void updatePersonalInfo(String name, String phoneNumber, String buildingNumber) {
         this.name = name;
