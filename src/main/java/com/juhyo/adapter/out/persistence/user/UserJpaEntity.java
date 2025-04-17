@@ -1,6 +1,7 @@
 package com.juhyo.adapter.out.persistence.user;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import com.juhyo.domain.user.UserRole;
 import com.juhyo.domain.user.UserStatus;
@@ -20,8 +21,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserJpaEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @Column(nullable = false, unique = true)
     private String email;

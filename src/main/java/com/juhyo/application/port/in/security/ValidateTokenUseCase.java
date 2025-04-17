@@ -3,6 +3,8 @@ package com.juhyo.application.port.in.security;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.UUID;
+
 public interface ValidateTokenUseCase {
     boolean validateToken(String token);
     
@@ -12,6 +14,6 @@ public interface ValidateTokenUseCase {
     @Builder
     class TokenClaims {
         private final String email;
-        private final Long userId;
+        private final UUID userId;
     }
 }

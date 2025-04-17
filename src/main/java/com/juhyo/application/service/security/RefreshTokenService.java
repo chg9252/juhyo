@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +19,7 @@ public class RefreshTokenService {
     private final JwtProperties jwtProperties;
 
     @Transactional
-    public RefreshTokenEntity createRefreshToken(Long userId, String token) {
+    public RefreshTokenEntity createRefreshToken(UUID userId, String token) {
         RefreshTokenEntity refreshToken = RefreshTokenEntity.builder()
                 .userId(userId)
                 .token(token)
@@ -39,7 +40,7 @@ public class RefreshTokenService {
     }
 
     @Transactional
-    public void deleteByUserId(Long userId) {
+    public void deleteByUserId(UUID userId) {
         refreshTokenRepository.deleteByUserId(userId);
     }
     

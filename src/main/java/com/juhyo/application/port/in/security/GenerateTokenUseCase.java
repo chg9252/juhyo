@@ -3,6 +3,8 @@ package com.juhyo.application.port.in.security;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.UUID;
+
 public interface GenerateTokenUseCase {
     TokenResponse generateToken(GenerateTokenCommand command);
 
@@ -10,7 +12,7 @@ public interface GenerateTokenUseCase {
     @Builder
     class GenerateTokenCommand {
         private final String email;
-        private final Long userId;
+        private final UUID userId;
     }
 
     @Data

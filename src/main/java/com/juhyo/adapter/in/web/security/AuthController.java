@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
@@ -60,5 +62,5 @@ public class AuthController {
     // DTO 클래스
     public record RefreshTokenRequest(String refreshToken) {}
     public record RefreshTokenResponse(String accessToken, String refreshToken, long expiresIn) {}
-    public record LogoutRequest(Long userId) {}
+    public record LogoutRequest(UUID userId) {}
 }

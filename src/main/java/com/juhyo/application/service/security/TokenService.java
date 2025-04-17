@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -41,7 +42,7 @@ public class TokenService implements GenerateTokenUseCase, ValidateTokenUseCase 
     public TokenClaims getTokenClaims(String token) {
         Map<String, Object> claims = jwtPort.extractClaims(token);
         String email = jwtPort.extractSubject(token);
-        Long userId = ((Number) claims.get("userId")).longValue();
+        UUID userId = UUID.fromString((String) claims.get("userId"));
 
         return TokenClaims.builder()
                 .email(email)

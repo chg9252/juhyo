@@ -1,13 +1,14 @@
 package com.juhyo.domain.user;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 public class User {
-    private Long id;
+    private UUID id;
     private String email;
     private String password;
     private String name;        // 실명
@@ -34,7 +35,7 @@ public class User {
     protected User() {}
 
     @Builder
-    public User(Long id, String email, String password, String name, String phoneNumber,
+    public User(UUID id, String email, String password, String name, String phoneNumber,
                 String buildingNumber, String profileImage, String introduction,
                 LocalDateTime joinDate, LocalDateTime lastLoginDate,
                 Double reliability, Integer shareCount, Integer reportCount,
