@@ -3,6 +3,8 @@ package com.juhyo.application.port.in.user;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.UUID;
+
 public interface LoginUseCase {
     LoginResponse login(LoginCommand command);
 
@@ -16,7 +18,7 @@ public interface LoginUseCase {
     @Getter
     @Builder
     class LoginResponse {
-        private Long userId;
+        private UUID userId;
         private String email;
         private String name;
         private String accessToken;
