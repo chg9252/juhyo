@@ -43,16 +43,16 @@ public class UserController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<String>> login(@Valid @RequestBody LoginRequest request) {
+    public ResponseEntity<ApiResponse<LoginUseCase.LoginResponse>> login(@Valid @RequestBody LoginRequest request) {
         // UserCae 명령 객체 생성
         LoginUseCase.LoginCommand command = LoginUseCase.LoginCommand.builder()
                 .email(request.getEmail())
                 .password(request.getPassword())
                 .build();
 
-        String token = loginUseCase.login(command);
+        LoginUseCase.LoginResponse response  = loginUseCase.login(command);
 
-        return ResponseEntity.ok(ApiResponse.success("로그인이 성공적으로 완료되었습니다.", token));
+        return ResponseEntity.ok(ApiResponse.success("로그인이 성공적으로 완료되었습니다.", response));
     }
 
 

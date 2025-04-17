@@ -1,5 +1,6 @@
 package com.juhyo.application.service.user;
 
+import com.juhyo.application.port.in.security.GenerateTokenUseCase;
 import com.juhyo.application.port.in.user.LoginUseCase;
 import com.juhyo.application.port.in.user.RegisterUserUseCase;
 import com.juhyo.application.port.out.user.UserPort;
@@ -18,6 +19,7 @@ public class UserService implements RegisterUserUseCase, LoginUseCase {
 
     private final UserPort userPort;
     private final PasswordEncoder passwordEncoder;
+    private final GenerateTokenUseCase generateTokenUseCase;
 
     @Override
     public User registerUser(RegisterUserCommand command) {
@@ -46,7 +48,7 @@ public class UserService implements RegisterUserUseCase, LoginUseCase {
     }
 
     @Override
-    public String login(LoginCommand command) {
+    public LoginResponse login(LoginCommand command) {
         // 이메일로 사용자 찾기
         User user = userPort.findByEmail(command.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("등록되지 않은 이메일입니다."));
@@ -64,6 +66,23 @@ public class UserService implements RegisterUserUseCase, LoginUseCase {
         // 로그인 시간 업데이트
         user.updateLoginTime();
         userPort.save(user);
-        return "사용자 인증 성공: ID: " + user.getId();
+        
+        // JWT 토큰 생성
+        GenerateTokenUseCase.GenerateTokenCommand tokenCommand = GenerateTokenUseCase.GenerateTokenCommand.builder()
+                .email(user.getEmail())
+                .userId(user.getId())
+                .build();
+        
+        GenerateTokenUseCase.TokenResponse tokenResponse = generateTokenUseCase.generateToken(tokenCommand);
+        
+        // 로그인 응답 생성
+        return LoginResponse.builder()
+                .userId(user.getId())
+                .email(user.getEmail())
+                .name(user.getName())
+                .accessToken(tokenResponse.getAccessToken())
+                .refreshToken(tokenResponse.getRefreshToken())
+                .expiresIn(tokenResponse.getExpiresIn())
+                .build();
     }
 }
