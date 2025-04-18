@@ -2,7 +2,10 @@ package com.juhyo.application.service.security;
 
 import com.juhyo.adapter.out.persistence.security.RefreshTokenEntity;
 import com.juhyo.adapter.out.persistence.security.RefreshTokenRepository;
+import com.juhyo.adapter.out.persistence.user.UserJpaEntity;
+import com.juhyo.adapter.out.persistence.user.UserRepository;
 import com.juhyo.config.JwtProperties;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,11 +20,17 @@ public class RefreshTokenService {
 
     private final RefreshTokenRepository refreshTokenRepository;
     private final JwtProperties jwtProperties;
+    private final UserRepository userRepository;
 
     @Transactional
     public RefreshTokenEntity createRefreshToken(UUID userId, String token) {
+
+        UserJpaEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
+
+
         RefreshTokenEntity refreshToken = RefreshTokenEntity.builder()
-                .userId(userId)
+                .user(user)
                 .token(token)
                 .expiryDate(Instant.now().plusMillis(jwtProperties.getRefreshTokenValidityInMilliseconds()))
                 .build();

@@ -1,5 +1,6 @@
 package com.juhyo.adapter.out.persistence.security;
 
+import com.juhyo.adapter.out.persistence.user.UserJpaEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,13 +25,18 @@ public class RefreshTokenEntity {
     @Column(nullable = false, unique = true)
     private String token;
 
-    @Column(nullable = false)
-    private UUID userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserJpaEntity user;
 
     @Column(nullable = false)
     private Instant expiryDate;
 
     public boolean isExpired() {
         return Instant.now().isAfter(expiryDate);
+    }
+    // 기존 코드와의 호환성을 위한 메서드
+    public UUID getUserId() {
+        return user != null ? user.getId() : null;
     }
 }
