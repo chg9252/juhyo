@@ -36,7 +36,7 @@ public class RefreshTokenService {
                 .build();
 
         // 기존 토큰이 있다면 삭제
-        refreshTokenRepository.findByUserId(userId).ifPresent(entity -> 
+        refreshTokenRepository.findByUser_Id(userId).ifPresent(entity ->
             refreshTokenRepository.deleteById(entity.getId())
         );
 
@@ -50,7 +50,7 @@ public class RefreshTokenService {
 
     @Transactional
     public void deleteByUserId(UUID userId) {
-        refreshTokenRepository.deleteByUserId(userId);
+        refreshTokenRepository.deleteByUser_Id(userId);
     }
     
     @Transactional
